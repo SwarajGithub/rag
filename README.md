@@ -1,6 +1,6 @@
 # Goal
 
-** Build a RAG Pipeline and chat with your PDF **
+**Build a RAG Pipeline and chat with your PDF**
 
 ## Learnings
 * Parsing
@@ -25,7 +25,7 @@
 | Search | FAISS                                   |
 | LLM Integration | Ollama(Local)                           |
 | API | FastAPI                                 |
-| UI | React                                   |
+| UI | HTML                                    |
 
 ### Step 3: Implementation
 | Task | File | Description                                  |
