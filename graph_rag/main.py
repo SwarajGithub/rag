@@ -43,7 +43,7 @@ async def upload_pdf(file: UploadFile = File(...)):
             "status": "success",
             "filename": file.filename,
             "doc_name": doc_name,
-            "message": "PDF successfully ingested using Sliding Windows and optimized via PostgreSQL TSVECTOR!"
+            "message": "PDF successfully ingested using Graph RAG!"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
