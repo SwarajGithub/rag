@@ -9,7 +9,7 @@ class RAGGenerator:
     def generate_answer(self, question: str, doc_name: str, top_k = 3):
         retrieved_chunks = self.vector_store.search(question, doc_name)
         if not retrieved_chunks:
-            return "Not available"
+            return "Not available", []
 
         context_blocks = []
         citations = set()
@@ -40,15 +40,4 @@ class RAGGenerator:
         answer_text = call_llm(system_prompt, user_prompt)
         return answer_text, sorted(list(citations))
 
-if __name__ == "__main__":
-    pdf_path = "/data/artemis_plan-20200921.pdf"
-    doc_name = os.path.basename(pdf_path).split(".")[0]
 
-    rag = RAGGenerator()
-
-    question = "What are core mission elements?"
-    answer, sources = rag.generate_answer(question=question, doc_name=doc_name)
-
-    print("\n--- RAG Response ---")
-    print(answer)
-    print(f"\nSources / Pages Cited: {sources}")

@@ -47,7 +47,3 @@ def ingest_pdf(pdf_path, output_image_dir="extracted_images"):
     print("Extraction completed")
     return document_chunks
 
-if __name__ == "__main__":
-    pdf_file = "/data/artemis_plan-20200921.pdf"
-    chunks = ingest_pdf(pdf_file)
-    print(chunks)

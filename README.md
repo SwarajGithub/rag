@@ -43,16 +43,22 @@
 
 ```
 CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS age;
 
-CREATE TABLE IF NOT EXISTS document_chunks (
-    id SERIAL PRIMARY KEY,
-    document_name TEXT,
-    page INT,
-    chunk_type TEXT, -- 'text' or 'image'
-    content TEXT,
-    image_path TEXT,
-    embedding vector(384) -- Dimension matches all-MiniLM-L6-v2 (384)
-);
+CREATE TABLE IF NOT EXISTS kb_advanced_chunks (
+            id SERIAL PRIMARY KEY,
+            document_id VARCHAR(255) NOT NULL,
+            page_num INT NOT NULL DEFAULT 1,
+            content_type VARCHAR(50) NOT NULL DEFAULT 'text',
+            image_path TEXT DEFAULT NULL,
+            content TEXT NOT NULL,
+            embedding VECTOR(384),
+            tsv_content TSVECTOR
+        );
+        
+        CREATE INDEX IF NOT EXISTS idx_kb_chunks_tsv ON kb_advanced_chunks USING GIN(tsv_content);
+        CREATE INDEX IF NOT EXISTS idx_kb_chunks_embedding ON kb_advanced_chunks USING hnsw (embedding vector_cosine_ops)
+    
 ```
 
 ```
@@ -62,6 +68,7 @@ pip install -r requirements.txt
 ```
 
 * Copy .env.example as .env and populate
+* Go to the folder which needs to be run(tested)
 
 ```
 source .env

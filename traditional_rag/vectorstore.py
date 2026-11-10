@@ -23,7 +23,8 @@ class VectorStore:
 
         db = DB_Operations()
         db.delete_from_db(doc_name)
-        db.insert_in_db(doc_name, chunks, embeddings)
+        for chunk, emb in zip(chunks, embeddings):
+            db.insert_in_db(doc_name, chunk, emb)
 
 
 
@@ -32,18 +33,5 @@ class VectorStore:
         query_vector = self.model.encode(query, show_progress_bar=True, convert_to_numpy=True).astype(np.float32).tolist()
         db = DB_Operations()
 
-        return db.get_from_db(doc_name, query_vector, query=query, candidate_pool_limit = top_k)
+        return db.get_from_db(query_vector, doc_name, query=query, candidate_pool_limit=top_k)
 
-if __name__ == "__main__":
-    pdf_path = "/data/artemis_plan-20200921.pdf"
-    vectorstore = VectorStore()
-
-    # Store
-    vectorstore.build_index(pdf_path)
-
-    # Search
-    doc_name = os.path.basename(pdf_path).split(".")[0]
-    question = "What is mission timeline?"
-    answers  = vectorstore.search(query=question, doc_name=doc_name)
-    for i, answer in enumerate(answers):
-        print(i, answer)
