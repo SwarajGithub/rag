@@ -41,7 +41,7 @@ class RAGGenerator:
         return answer_text, sorted(list(citations))
 
 if __name__ == "__main__":
-    pdf_path = "/Users/sshekhar/git1/rag/data/artemis_plan-20200921.pdf"
+    pdf_path = "/data/artemis_plan-20200921.pdf"
     doc_name = os.path.basename(pdf_path).split(".")[0]
 
     rag = RAGGenerator()

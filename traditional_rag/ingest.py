@@ -1,6 +1,5 @@
 import os
 import fitz
-from PIL import Image
 
 def ingest_pdf(pdf_path, output_image_dir="extracted_images"):
     if not os.path.exists(output_image_dir):
@@ -8,6 +7,7 @@ def ingest_pdf(pdf_path, output_image_dir="extracted_images"):
 
     doc = fitz.open(pdf_path)
     document_chunks = []
+    doc_name = os.path.basename(pdf_path).split(".")[0]
 
     print("Processing PDF...")
     for page_num in range(len(doc)):
@@ -31,7 +31,7 @@ def ingest_pdf(pdf_path, output_image_dir="extracted_images"):
             image_bytes = base_image["image"]
             image_ext = base_image["ext"]
 
-            image_filename = os.path.join(output_image_dir, f"page_{page_num+1}_img{img_index}.{image_ext}")
+            image_filename = os.path.join(output_image_dir, f"{doc_name}_page_{page_num+1}_img{img_index}.{image_ext}")
             with open(image_filename, "wb") as f:
                 f.write(image_bytes)
 
@@ -48,6 +48,6 @@ def ingest_pdf(pdf_path, output_image_dir="extracted_images"):
     return document_chunks
 
 if __name__ == "__main__":
-    pdf_file = "/Users/sshekhar/git1/rag/data/artemis_plan-20200921.pdf"
+    pdf_file = "/data/artemis_plan-20200921.pdf"
     chunks = ingest_pdf(pdf_file)
     print(chunks)
